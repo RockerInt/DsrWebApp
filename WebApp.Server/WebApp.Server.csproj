@@ -1,0 +1,57 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <SpaRoot>..\webapp.client</SpaRoot>
+    <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
+    <SpaProxyServerUrl>https://localhost:53800</SpaProxyServerUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaProxy">
+      <Version>9.*-*</Version>
+    </PackageReference>
+  </ItemGroup>
+
+  <Target Name="CreateWwwrootFolderBuild" BeforeTargets="BeforeBuild">
+    <RemoveDir Directories="$(BuildDir)Client" />
+    <MakeDir Directories="$(BuildDir)Client" Condition="!Exists('$(BuildDir)Client')" />
+    <RemoveDir Directories="$(BuildDir)wwwroot" />
+    <MakeDir Directories="$(BuildDir)wwwroot" Condition="!Exists('$(BuildDir)wwwroot')" />
+    <Exec Command="npm install" WorkingDirectory="../webapp.client" />
+    <Exec Command="npm run build" WorkingDirectory="../webapp.client" />
+    <ItemGroup>
+      <CopyDist Include="$(BuildDir)Client/browser/**/*.*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(CopyDist)" DestinationFiles="@(CopyDist->'$(BuildDir)wwwroot\%(RecursiveDir)%(Filename)%(Extension)')" />
+  </Target>
+
+  <ItemGroup>
+    <ProjectReference Include="..\webapp.client\webapp.client.esproj">
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+
+  <!-- <ItemGroup>
+    <Content Include="wwwroot\**\*.*">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup> -->
+
+  <!-- <Target Name="CreateAppDataFolder" BeforeTargets="Publish">
+    <RemoveDir Directories="$(PublishDir)Client" />
+    <MakeDir Directories="$(PublishDir)Client" Condition="!Exists('$(PublishDir)Client')" />
+    <RemoveDir Directories="$(PublishDir)wwwroot" />
+    <MakeDir Directories="$(PublishDir)wwwroot" Condition="!Exists('$(PublishDir)wwwroot')" />
+    <Exec Command="npm install" WorkingDirectory="../webapp.client" />
+    <Exec Command="npm run build" WorkingDirectory="../webapp.client" />
+    <ItemGroup>
+      <CopyDist Include="$(PublishDir)Client/browser/**/*.*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(CopyDist)" DestinationFiles="@(CopyDist->'$(PublishDir)wwwroot\%(RecursiveDir)%(Filename)%(Extension)')" />
+  </Target> -->
+
+</Project>

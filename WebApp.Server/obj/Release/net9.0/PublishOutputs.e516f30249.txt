@@ -1,0 +1,10 @@
+/Users/jjimenez/Documents/Code/Publish/appsettings.Development.json
+/Users/jjimenez/Documents/Code/Publish/appsettings.json
+/Users/jjimenez/Documents/Code/Publish/Client/prerendered-routes.json
+/Users/jjimenez/Documents/Code/Publish/WebApp.Server.dll
+/Users/jjimenez/Documents/Code/Publish/WebApp.Server.deps.json
+/Users/jjimenez/Documents/Code/Publish/WebApp.Server.runtimeconfig.json
+/Users/jjimenez/Documents/Code/Publish/WebApp.Server.pdb
+/Users/jjimenez/Documents/Code/Publish/Microsoft.AspNetCore.OpenApi.dll
+/Users/jjimenez/Documents/Code/Publish/Microsoft.AspNetCore.SpaProxy.dll
+/Users/jjimenez/Documents/Code/Publish/Microsoft.OpenApi.dll

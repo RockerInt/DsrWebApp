@@ -1,0 +1,10 @@
+/Users/jjimenez/Documents/Code/WebApp/WebApp.Server/bin/Release/net9.0/publish/appsettings.Development.json
+/Users/jjimenez/Documents/Code/WebApp/WebApp.Server/bin/Release/net9.0/publish/appsettings.json
+/Users/jjimenez/Documents/Code/WebApp/WebApp.Server/bin/Release/net9.0/publish/Client/prerendered-routes.json
+/Users/jjimenez/Documents/Code/WebApp/WebApp.Server/bin/Release/net9.0/publish/WebApp.Server.dll
+/Users/jjimenez/Documents/Code/WebApp/WebApp.Server/bin/Release/net9.0/publish/WebApp.Server.deps.json
+/Users/jjimenez/Documents/Code/WebApp/WebApp.Server/bin/Release/net9.0/publish/WebApp.Server.runtimeconfig.json
+/Users/jjimenez/Documents/Code/WebApp/WebApp.Server/bin/Release/net9.0/publish/WebApp.Server.pdb
+/Users/jjimenez/Documents/Code/WebApp/WebApp.Server/bin/Release/net9.0/publish/Microsoft.AspNetCore.OpenApi.dll
+/Users/jjimenez/Documents/Code/WebApp/WebApp.Server/bin/Release/net9.0/publish/Microsoft.AspNetCore.SpaProxy.dll
+/Users/jjimenez/Documents/Code/WebApp/WebApp.Server/bin/Release/net9.0/publish/Microsoft.OpenApi.dll

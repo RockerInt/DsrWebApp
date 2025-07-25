@@ -1,0 +1,10 @@
+{
+"SpaProxyServer": {
+"ServerUrl": "https://localhost:53800",
+"RedirectUrl": "",
+"LaunchCommand": "npm start",
+"WorkingDirectory": "/Users/jjimenez/Documents/Code/WebApp/WebApp.Server/../webapp.client",
+"MaxTimeoutInSeconds": "120",
+"KeepRunning": "false"
+}
+}
