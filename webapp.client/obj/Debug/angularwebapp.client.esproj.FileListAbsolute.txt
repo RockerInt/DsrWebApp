@@ -1,2 +1,0 @@
-C:/Users/jjimenez/source/repos/AngularWebApp/webapp.client/obj/Debug/webapp.client.esproj.CoreCompileInputs.cache
-/Users/jjimenez/Documents/Code/AngularWebApp/webapp.client/obj/Debug/webapp.client.esproj.CoreCompileInputs.cache

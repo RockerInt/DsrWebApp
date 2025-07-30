@@ -340,7 +340,29 @@
 
 <router-outlet />
 
-<h1 id="tableLabel">Weather forecast</h1>
+<h1 id="tableLabel">Sales</h1>
+
+<p>This component demonstrates fetching sales data from the server.</p>
+
+<p *ngIf="!sales()"><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationangular">https://aka.ms/jspsintegrationangular</a> for more details.</em></p>
+
+<table *ngIf="sales()">
+    <thead>
+        <tr>
+            <th>Client ID</th>
+            <th>Sale Date</th>
+            <th>Number of Items</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let sale of sales()">
+            <td>{{ sale.clientId }}</td>
+            <td>{{ sale.saleDate }}</td>
+            <td>{{ sale.items.length }}</td>
+        </tr>
+    </tbody>
+</table>
+<!-- <h1 id="tableLabel">Weather forecast</h1>
 
 <p>This component demonstrates fetching data from the server.</p>
 
@@ -363,4 +385,4 @@
             <td>{{ forecast.summary }}</td>
         </tr>
     </tbody>
-</table>
+</table> -->
