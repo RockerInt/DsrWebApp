@@ -1,0 +1,50 @@
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.useros
+*.sln.docstates
+
+# Build results
+Debug/
+debug/
+Release/
+release/
+Bin/
+bin/
+Obj/
+obj/
+
+# Packages
+*.nupkg
+*.snupkg
+*.dll
+*.exe
+
+# Rider
+.idea/
+
+# Node.js
+node_modules/
+pm-debug.log
+yarn-debug.log
+yarn-error.log
+.pnp/
+.pnp.js
+
+# Angular
+.angular/
+dist/
+.env
+
+# Misc
+*.log
+*.bak
+*.orig
+*~ 
+
+# macOS
+.DS_Store
+WebApp.Server/Client/
+WebApp.Server/wwwroot/
