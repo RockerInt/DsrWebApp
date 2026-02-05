@@ -10,26 +10,24 @@ namespace WebApp.Server.Services;
 /// <summary>
 /// Client to interact with Products API endpoints
 /// </summary>
+/// <param name="httpClient"></param>
 /// <param name="urls"></param>
-public class ProductsClient(IOptions<UrlsConfig> urls) : Dsr.Architecture.Infrastructure.Provider.Client(urls.Value.ApiService)
+public class ProductsClient(HttpClient httpClient, IOptions<UrlsConfig> urls) 
+    : Dsr.Architecture.Infrastructure.Provider.Client(httpClient, urls.Value.ApiService)
 {
     /// <summary>
     /// Gets a list of products from the Products API
     /// </summary>
     /// <returns></returns>
     /// <exception cref="Exception"></exception>
-    public async Task<List<Product>> Get()
+    public async Task<Result<List<Product>>> Get()
     {
-        var response = await Get<HttpResponseMessage>(UrlsConfig.ProductsServices.Get());
+        var response = await Get<Result<List<Product>>>(UrlsConfig.ProductsServices.Get());
 
-        if (response?.Content?.IsSuccessStatusCode ?? false)
-        {
-            return WebUtilities.ValidateContent(response.Content).ToEntityListSimple<Product>();
-        }
+        if ((response?.ResultCode ?? -1) == 0)
+            return response!.Content ?? new([]);
         else
-        {
-            throw new Exception($"HttpException: {Environment.NewLine} StatusCode: {Convert.ToInt16(response?.Content?.StatusCode ?? System.Net.HttpStatusCode.InternalServerError)}, {Environment.NewLine} Messege: {WebUtilities.ValidateContent(response.Content)}");
-        }
+            throw new Exception($"Exception: {Environment.NewLine} ResultCode: {Convert.ToInt16(response?.ResultCode)}, {Environment.NewLine} Messege: {response?.ErrorMessage}");
     }
     
     /// <summary>
@@ -40,15 +38,12 @@ public class ProductsClient(IOptions<UrlsConfig> urls) : Dsr.Architecture.Infras
     /// <exception cref="Exception"></exception>
     public async Task<ResultSimple> Register(string name, string description, decimal price, int stock)
     {
-        var response = await Post<HttpResponseMessage>(UrlsConfig.ProductsServices.Register(), JsonConvert.SerializeObject(new { Name = name, Description = description, Price = price, Stock = stock }));
-        if (response?.Content?.IsSuccessStatusCode ?? false)
-        {
-            return WebUtilities.ValidateContent(response.Content).ToEntitySimple<ResultSimple>();
-        }
+        var response = await Post<ResultSimple>(UrlsConfig.ProductsServices.Register(), JsonConvert.SerializeObject(new { Name = name, Description = description, Price = price, Stock = stock }));
+        
+        if ((response?.ResultCode ?? -1) == 0)
+            return response!.Content ?? new();
         else
-        {
-            throw new Exception($"HttpException: {Environment.NewLine} StatusCode: {Convert.ToInt16(response?.Content?.StatusCode ?? System.Net.HttpStatusCode.InternalServerError)}, {Environment.NewLine} Messege: {WebUtilities.ValidateContent(response.Content)}");
-        }
+            throw new Exception($"Exception: {Environment.NewLine} ResultCode: {Convert.ToInt16(response?.ResultCode)}, {Environment.NewLine} Messege: {response?.ErrorMessage}");
     }
 
 }

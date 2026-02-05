@@ -18,18 +18,22 @@ RUN apt-get update \
 # Sets the working directory for the build
 WORKDIR /src
 # Copies the project files to restore .NET dependencies
-COPY ["WebApp.Server/WebApp.Server.csproj", "WebApp.Server/"]
-COPY ["webapp.client/webapp.client.esproj", "webapp.client/"]
+COPY ["API/WebApp.Domain/WebApp.Domain.csproj", "API/WebApp.Domain/"]
+COPY ["API/WebApp.Application/WebApp.Application.csproj", "API/WebApp.Application/"]
+COPY ["API/WebApp.Infrastructure/WebApp.Infrastructure.csproj", "API/WebApp.Infrastructure/"]
+COPY ["Client/WebApp.Server/WebApp.Server.csproj", "Client/WebApp.Server/"]
+COPY ["Client/webapp.client/webapp.client.esproj", "Client/webapp.client/"]
 # Restores .NET dependencies
-RUN dotnet restore "./WebApp.Server/WebApp.Server.csproj"
+RUN dotnet restore "./Client/WebApp.Server/WebApp.Server.csproj"
 # Copies the rest of the source code to the container
 COPY . .
 # (Optional) Creates the folder that some scripts expect for the Angular build
-RUN mkdir -p /src/webapp.client/obj/Release
+RUN mkdir -p /src/Client/webapp.client/obj/Debug
+RUN mkdir -p /src/Client/webapp.client/obj/Release
 # Builds the .NET project (this also runs the Angular build if configured in the .csproj)
-RUN dotnet build "./WebApp.Server/WebApp.Server.csproj" -c Release -o /app/build
+RUN dotnet build "./Client/WebApp.Server/WebApp.Server.csproj" -c Release -o /app/build
 # Sets the working directory for publishing
-WORKDIR "/src/WebApp.Server"
+WORKDIR "/src/Client/WebApp.Server"
 # Publishes the .NET application in Release mode
 RUN dotnet publish "./WebApp.Server.csproj" -c Release -o /app/publish /p:UseAppHost=false
 

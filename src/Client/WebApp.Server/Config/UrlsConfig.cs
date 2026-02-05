@@ -15,11 +15,11 @@ public class UrlsConfig
     /// </summary>
     public class ClientsServices
     {
-        public static string Get() => $"/api/v1/Clients/Get";
+        public static string Get() => $"/Clients/Get";
 
-        public static string GetById(int id) => $"/api/v1/Clients/Get/{id}"; //TODO: Implement GetById in ClientsController
+        public static string GetById(int id) => $"/Clients/Get/{id}"; //TODO: Implement GetById in ClientsController
 
-        public static string Register() => $"/api/v1/Clients/Register";
+        public static string Register() => $"/Clients/Register";
     }
 
     /// <summary>
@@ -27,11 +27,11 @@ public class UrlsConfig
     /// </summary>
     public class InventoryServices
     {
-        public static string Get() => $"/api/v1/Inventory/Get";
+        public static string Get() => $"/Inventory/Get";
 
-        public static string GetByProductId(Guid id) => $"/api/v1/Inventory/Get/{id}"; 
+        public static string GetByProductId(Guid id) => $"/Inventory/Get/{id}"; 
 
-        public static string Stock() => $"/api/v1/Inventory/Stock";
+        public static string Stock() => $"/Inventory/Stock";
     }
 
     /// <summary>
@@ -39,11 +39,11 @@ public class UrlsConfig
     /// </summary>
     public class ProductsServices
     {
-        public static string Get() => $"/api/v1/Products/Get";
+        public static string Get() => $"/Products/Get";
 
-        public static string GetById(int id) => $"/api/v1/Products/Get/{id}"; //TODO: Implement GetById in ProductsController
+        public static string GetById(int id) => $"/Products/Get/{id}"; //TODO: Implement GetById in ProductsController
 
-        public static string Register() => $"/api/v1/Products/Register";
+        public static string Register() => $"/Products/Register";
     }
 
     /// <summary>
@@ -51,11 +51,11 @@ public class UrlsConfig
     /// </summary>
     public class SalesServices
     {
-        public static string Get() => $"/api/v1/Sales/Get";
+        public static string Get() => $"/Sales/Get";
 
-        public static string GetById(int id) => $"/api/v1/Sales/Get/{id}"; //TODO: Implement GetById in SalesController
+        public static string GetById(int id) => $"/Sales/Get/{id}"; //TODO: Implement GetById in SalesController
 
-        public static string Register() => $"/api/v1/Sales/Register";
+        public static string Register() => $"/Sales/Register";
     }
 }
 

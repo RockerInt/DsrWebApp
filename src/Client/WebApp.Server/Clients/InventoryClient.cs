@@ -11,39 +11,32 @@ namespace WebApp.Server.Services;
 /// Client to interact with Inventory API endpoints
 /// </summary>
 /// <param name="urls"></param>
-public class InventoryClient(IOptions<UrlsConfig> urls) : Dsr.Architecture.Infrastructure.Provider.Client(urls.Value.ApiService)
+public class InventoryClient(HttpClient httpClient, IOptions<UrlsConfig> urls) 
+:    Dsr.Architecture.Infrastructure.Provider.Client(httpClient, urls.Value.ApiService)
 {
     /// <summary>
     /// Gets a list of inventory items from the Inventory API
     /// </summary>
     /// <returns></returns>
     /// <exception cref="Exception"></exception>
-    public async Task<List<Inventory>> Get()
+    public async Task<Result<List<Inventory>>> Get()
     {
-        var response = await Get<HttpResponseMessage>(UrlsConfig.InventoryServices.Get());
+        var response = await Get<Result<List<Inventory>>>(UrlsConfig.InventoryServices.Get());
 
-        if (response?.Content?.IsSuccessStatusCode ?? false)
-        {
-            return WebUtilities.ValidateContent(response.Content).ToEntityListSimple<Inventory>();
-        }
+        if ((response?.ResultCode ?? -1) == 0)
+            return response!.Content ?? new([]);
         else
-        {
-            throw new Exception($"HttpException: {Environment.NewLine} StatusCode: {Convert.ToInt16(response?.Content?.StatusCode ?? System.Net.HttpStatusCode.InternalServerError)}, {Environment.NewLine} Messege: {WebUtilities.ValidateContent(response.Content)}");
-        }
+            throw new Exception($"Exception: {Environment.NewLine} ResultCode: {Convert.ToInt16(response?.ResultCode)}, {Environment.NewLine} Messege: {response?.ErrorMessage}");
     }
 
-    public async Task<List<Inventory>> Get(Guid productId)
+    public async Task<Result<List<Inventory>>> Get(Guid productId)
     {
-        var response = await Get<HttpResponseMessage>(UrlsConfig.InventoryServices.GetByProductId(productId));
+        var response = await Get<Result<List<Inventory>>>(UrlsConfig.InventoryServices.GetByProductId(productId));
 
-        if (response?.Content?.IsSuccessStatusCode ?? false)
-        {
-            return WebUtilities.ValidateContent(response.Content).ToEntityListSimple<Inventory>();
-        }
+        if ((response?.ResultCode ?? -1) == 0)
+            return response!.Content ?? new([]);
         else
-        {
-            throw new Exception($"HttpException: {Environment.NewLine} StatusCode: {Convert.ToInt16(response?.Content?.StatusCode ?? System.Net.HttpStatusCode.InternalServerError)}, {Environment.NewLine} Messege: {WebUtilities.ValidateContent(response.Content)}");
-        }
+            throw new Exception($"Exception: {Environment.NewLine} ResultCode: {Convert.ToInt16(response?.ResultCode)}, {Environment.NewLine} Messege: {response?.ErrorMessage}");
     }
     
     /// <summary>
@@ -55,16 +48,12 @@ public class InventoryClient(IOptions<UrlsConfig> urls) : Dsr.Architecture.Infra
     /// <exception cref="Exception"></exception>
     public async Task<ResultSimple> Stock(Guid productId, int stock)
     {
-        var response = await Post<HttpResponseMessage>(UrlsConfig.InventoryServices.Stock(), JsonConvert.SerializeObject(new { ProductId = productId, Stock = stock }));
+        var response = await Post<ResultSimple>(UrlsConfig.InventoryServices.Stock(), JsonConvert.SerializeObject(new { ProductId = productId, Stock = stock }));
 
-        if (response?.Content?.IsSuccessStatusCode ?? false)
-        {
-            return WebUtilities.ValidateContent(response.Content).ToEntitySimple<ResultSimple>();
-        }
+        if ((response?.ResultCode ?? -1) == 0)
+            return response!.Content ?? new();
         else
-        {
-            throw new Exception($"HttpException: {Environment.NewLine} StatusCode: {Convert.ToInt16(response?.Content?.StatusCode ?? System.Net.HttpStatusCode.InternalServerError)}, {Environment.NewLine} Messege: {WebUtilities.ValidateContent(response.Content)}");
-        }
+            throw new Exception($"Exception: {Environment.NewLine} ResultCode: {Convert.ToInt16(response?.ResultCode)}, {Environment.NewLine} Messege: {response?.ErrorMessage}");
     }
 
 }

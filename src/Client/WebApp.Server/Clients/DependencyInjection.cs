@@ -2,6 +2,7 @@
 using WebApp.Server.Services;
 using WebApp.Server.Resilience;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace WebApp.Server.Clients;
 
@@ -19,18 +20,20 @@ public static class DependecyInjection
     public static IServiceCollection AddClients(this IServiceCollection services, IConfiguration configuration)
     {
         ILogger logger = services.BuildServiceProvider().GetRequiredService<ILoggerFactory>().CreateLogger("HttpPoliciesLogger");
+        
+        var urlsConfig = configuration.GetSection("urls").Get<UrlsConfig>() ?? new UrlsConfig() { ApiService = "http://api:8080/" };
 
         return services.Configure<UrlsConfig>(configuration.GetSection("urls"))
-            .AddHttpClient<ClientsClient>()
+            .AddHttpClient<ClientsClient>(client => { client.BaseAddress = new Uri(urlsConfig.ApiService); })
             .AddPolicyHandler(HttpPolicies.GetResiliencePolicy(logger))
             .Services
-            .AddHttpClient<InventoryClient>()
+            .AddHttpClient<InventoryClient>(client => { client.BaseAddress = new Uri(urlsConfig.ApiService); })
             .AddPolicyHandler(HttpPolicies.GetResiliencePolicy(logger))
             .Services
-            .AddHttpClient<ProductsClient>()
+            .AddHttpClient<ProductsClient>(client => { client.BaseAddress = new Uri(urlsConfig.ApiService); })
             .AddPolicyHandler(HttpPolicies.GetResiliencePolicy(logger))
             .Services
-            .AddHttpClient<SalesClient>()
+            .AddHttpClient<SalesClient>(client => { client.BaseAddress = new Uri(urlsConfig.ApiService); })
             .AddPolicyHandler(HttpPolicies.GetResiliencePolicy(logger))
             .Services;
     }

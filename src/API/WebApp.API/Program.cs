@@ -20,9 +20,18 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    // app.UseSwagger(); // Adds the middleware to serve the generated OpenAPI document
+    // app.UseSwaggerUI(options =>
+    // {
+    //     options.SwaggerEndpoint("/openapi/v1.json", "My API V1");
+    // }); // Enables an embedded version of Swagger UI
     app.MapOpenApi();
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.MapControllers();
 
 app.Run();

@@ -23,6 +23,8 @@ public class SalesController(IMediator mediator) : ControllerBase
     /// </summary>
     /// <returns></returns>
     [HttpGet]
+    [Route("Get")]
+    [ProducesResponseType(typeof(Result<List<Sale>>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult?> Get() =>
         await this.Try<IActionResult>(
             async () => Ok(await _mediator.Send(new GetSalesUseCase()))
@@ -35,6 +37,9 @@ public class SalesController(IMediator mediator) : ControllerBase
     /// <returns>An <see cref="IActionResult"/> indicating the result of the registration.</returns>
     [HttpPost]
     [Route("Register")]
+    [Route("Get")]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.Created)]
     public async Task<IActionResult?> Register([FromBody] Sale request)
         => await this.Try<IActionResult>(
                 async () => ModelState.IsValid ?

@@ -20,17 +20,18 @@ RUN apt-get update \
 # Sets the working directory for the build
 WORKDIR /src
 # Copies the project files to restore .NET dependencies
-COPY ["API/WebApp.API/WebApp.API.csproj", "WebApp.API/"]
+COPY ["API/WebApp.Domain/WebApp.Domain.csproj", "API/WebApp.Domain/"]
+COPY ["API/WebApp.Application/WebApp.Application.csproj", "API/WebApp.Application/"]
+COPY ["API/WebApp.Infrastructure/WebApp.Infrastructure.csproj", "API/WebApp.Infrastructure/"]
+COPY ["API/WebApp.API/WebApp.API.csproj", "API/WebApp.API/"]
 # Restores .NET dependencies
-RUN dotnet restore "./WebApp.API/WebApp.API.csproj"
+RUN dotnet restore "./API/WebApp.API/WebApp.API.csproj"
 # Copies the rest of the source code to the container
 COPY . .
-# (Optional) Creates the folder that some scripts expect for the Angular build
-RUN mkdir -p /src/webapp.client/obj/Release
 # Builds the .NET project (this also runs the Angular build if configured in the .csproj)
-RUN dotnet build "./WebApp.API/WebApp.API.csproj" -c Release -o /app/build
+RUN dotnet build "./API/WebApp.API/WebApp.API.csproj" -c Release -o /app/build
 # Sets the working directory for publishing
-WORKDIR "/src/WebApp.API"
+WORKDIR "/src/API/WebApp.API"
 # Publishes the .NET application in Release mode
 RUN dotnet publish "./WebApp.API.csproj" -c Release -o /app/publish /p:UseAppHost=false
 # Final stage: lightweight image with only runtime and published files

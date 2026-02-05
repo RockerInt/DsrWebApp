@@ -11,27 +11,24 @@ namespace WebApp.Server.Services;
 /// Client to interact with Clients API endpoints
 /// </summary>
 /// <param name="urls"></param>
-public class ClientsClient(IOptions<UrlsConfig> urls) : Dsr.Architecture.Infrastructure.Provider.Client(urls.Value.ApiService)
+public class ClientsClient(HttpClient httpClient, IOptions<UrlsConfig> urls)
+    : Dsr.Architecture.Infrastructure.Provider.Client(httpClient, urls.Value.ApiService)
 {
     /// <summary>
     /// Gets a list of clients from the Clients API
     /// </summary>
     /// <returns></returns>
     /// <exception cref="Exception"></exception>
-    public async Task<List<Client>> Get()
+    public async Task<Result<List<Client>>> Get()
     {
-        var response = await Get<HttpResponseMessage>(UrlsConfig.ClientsServices.Get());
+        var response = await Get<Result<List<Client>>>(UrlsConfig.ClientsServices.Get());
 
-        if (response?.Content?.IsSuccessStatusCode ?? false)
-        {
-            return WebUtilities.ValidateContent(response.Content).ToEntityListSimple<Client>();
-        }
+        if ((response?.ResultCode ?? -1) == 0)
+            return response!.Content ?? new([]);
         else
-        {
-            throw new Exception($"HttpException: {Environment.NewLine} StatusCode: {Convert.ToInt16(response?.Content?.StatusCode ?? System.Net.HttpStatusCode.InternalServerError)}, {Environment.NewLine} Messege: {WebUtilities.ValidateContent(response.Content)}");
-        }
+            throw new Exception($"Exception: {Environment.NewLine} ResultCode: {Convert.ToInt16(response?.ResultCode)}, {Environment.NewLine} Messege: {response?.ErrorMessage}");
     }
-    
+
     /// <summary>
     /// Registers a new client via the Clients API
     /// </summary>
@@ -40,16 +37,12 @@ public class ClientsClient(IOptions<UrlsConfig> urls) : Dsr.Architecture.Infrast
     /// <exception cref="Exception"></exception>
     public async Task<ResultSimple> Register(Client client)
     {
-        var response = await Post<HttpResponseMessage>(UrlsConfig.ClientsServices.Register(), JsonConvert.SerializeObject(client));
+        var response = await Post<Client, ResultSimple>(UrlsConfig.ClientsServices.Register(), client);
 
-        if (response?.Content?.IsSuccessStatusCode ?? false)
-        {
-            return WebUtilities.ValidateContent(response.Content).ToEntitySimple<ResultSimple>();
-        }
+        if ((response?.ResultCode ?? -1) == 0)
+            return response!.Content ?? new();
         else
-        {
-            throw new Exception($"HttpException: {Environment.NewLine} StatusCode: {Convert.ToInt16(response?.Content?.StatusCode ?? System.Net.HttpStatusCode.InternalServerError)}, {Environment.NewLine} Messege: {WebUtilities.ValidateContent(response.Content)}");
-        }
+            throw new Exception($"Exception: {Environment.NewLine} ResultCode: {Convert.ToInt16(response?.ResultCode)}, {Environment.NewLine} Messege: {response?.ErrorMessage}");
     }
 
 }
