@@ -1,5 +1,6 @@
 ﻿using Dsr.Architecture.Application;
 using Microsoft.Extensions.DependencyInjection;
+using WebApp.Domain;
 using WebApp.Domain.Entities;
 
 namespace WebApp.Application;
@@ -16,6 +17,7 @@ public static class DependecyInjection
     /// <returns>The <see cref="IServiceCollection"/> for chaining.</returns>
     public static IServiceCollection AddApplication(this IServiceCollection services)
         => services.AddApplicationServices()
+                   .AddDomain()
                    .AddMediatR(cf => cf.RegisterServicesFromAssembly(typeof(Client).Assembly))
                    .AddMediatR(cf => cf.RegisterServicesFromAssembly(typeof(DependecyInjection).Assembly));
                    // Sql CQRS implementations

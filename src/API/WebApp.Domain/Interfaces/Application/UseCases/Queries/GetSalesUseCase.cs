@@ -2,7 +2,7 @@
 using Dsr.Architecture.Domain.Entities;
 using WebApp.Domain.Entities;
 
-namespace WebApp.Domain.Interfaces.Application.UseCases.Requests;
+namespace WebApp.Domain.Interfaces.Application.UseCases.Queries;
 
 /// <summary>
 /// Represents the use case for retrieving a list of sales.

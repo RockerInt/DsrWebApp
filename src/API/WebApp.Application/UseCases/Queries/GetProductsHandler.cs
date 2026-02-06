@@ -1,10 +1,10 @@
 ﻿using Dsr.Architecture.Domain.Entities;
 using MediatR;
 using WebApp.Domain.Entities;
-using WebApp.Domain.Interfaces.Application.UseCases.Requests;
+using WebApp.Domain.Interfaces.Application.UseCases.Queries;
 using WebApp.Domain.Interfaces.Infrastructure.Repositories;
 
-namespace WebApp.Application.UseCases.Requests;
+namespace WebApp.Application.UseCases.Queries;
 
 /// <summary>
 /// Handles the retrieval of products data.
